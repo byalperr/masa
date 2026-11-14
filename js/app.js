@@ -290,6 +290,14 @@
     }
   }
 
+  // route() sonrası Yapay Zekaya Sor panelinin kapsamını (PDF / defter / masa) günceller
+  var routeInner = route;
+  route = function () {
+    routeInner();
+    if (window.Hafiza) Hafiza.sync();
+    if (window.AI && AI.syncScope) AI.syncScope();
+  };
+
   // ---------- Sürükle-bırak (PDF -> Masa, Ses -> Müzik Kutusu) ----------
   function initDrop() {
     var drop = $('#drop'), depth = 0;
@@ -358,6 +366,7 @@
     Promise.all([Desk.init(), Notebook.init(), Music.init()]).then(function () {
       window.addEventListener('hashchange', route);
       route();
+      if (window.Hafiza) Hafiza.start();
     });
   }
 

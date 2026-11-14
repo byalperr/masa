@@ -49,6 +49,8 @@
     <symbol id="i-move" viewBox="0 0 20 20"><path d="M4 10h12M12 6l4 4-4 4"/></symbol>
     <symbol id="i-shelf" viewBox="0 0 20 20"><path d="M3 4.5h14v11H3zM3 10h14M6.5 4.5V10M10 4.5V10M13.5 10v5.5"/></symbol>
     <symbol id="i-ai" viewBox="0 0 20 20"><path d="M8.5 3.5 10 8l4.5 1.5L10 11l-1.5 4.5L7 11 2.5 9.5 7 8z"/><path d="M15 3v3M13.5 4.5h3M15.5 12.5v3M14 14h3"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 20 20"><path d="M12 3h5v5M8 17H3v-5M17 3l-5.5 5.5M3 17l5.5-5.5"/></symbol>
+    <symbol id="i-shrink" viewBox="0 0 20 20"><path d="M17 8h-5V3M3 12h5v5M12 8l5.5-5.5M8 12l-5.5 5.5"/></symbol>
     <symbol id="i-dual" viewBox="0 0 20 20"><rect x="3" y="5" width="8" height="11" rx="1"/><rect x="9" y="3.5" width="8" height="11" rx="1"/></symbol>
   </defs>
 </svg>
@@ -86,6 +88,8 @@
       <button id="btn-add-pdf" class="btn primary" type="button">
         <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>PDF Ekle</span>
       </button>
+
+      <button id="d-ai-btn" class="btn ai-pill" type="button" aria-label="Yapay zekaya sor" title="Yapay zekaya sor" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ai"/></svg><span class="ai-pill-t">Yapay zekaya sor</span></button>
 
       <button id="nav-to-notebook" class="btn" type="button" title="Konu başlıklı Defter bölümünü aç">
         <svg class="ico" aria-hidden="true"><use href="#i-notebook"/></svg><span>Defter</span>
@@ -294,6 +298,7 @@
         <button class="btn icon small mini-next" type="button" title="Sonraki"><svg class="ico" aria-hidden="true"><use href="#i-next"/></svg></button>
         <button class="mini-open" type="button" title="Müzik seç"><span class="mini-track">Müzik Yok</span></button>
       </div>
+      <button id="nb-ai-btn" class="btn ai-pill" type="button" aria-label="Yapay zekaya sor" title="Yapay zekaya sor" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ai"/></svg><span class="ai-pill-t">Yapay zekaya sor</span></button>
       <div class="pop-wrap">
         <button id="nb-ambience" class="btn icon" type="button" title="Ambiyans sesleri" aria-label="Ambiyans sesleri"><svg class="ico" aria-hidden="true"><use href="#i-volume"/></svg></button>
       </div>
@@ -419,7 +424,7 @@
       <div class="pop-wrap">
         <button id="r-ambience" class="btn icon" type="button" aria-label="Ambiyans sesleri" title="Ambiyans sesleri"><svg class="ico" aria-hidden="true"><use href="#i-volume"/></svg></button>
       </div>
-      <button id="r-ai-btn" class="btn icon" type="button" aria-label="Yapay zekaya sor" title="Yapay zekaya sor" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ai"/></svg></button>
+      <button id="r-ai-btn" class="btn ai-pill" type="button" aria-label="Yapay zekaya sor" title="Yapay zekaya sor" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ai"/></svg><span class="ai-pill-t">Yapay zekaya sor</span></button>
       <button id="r-quick-note-btn" class="btn icon" type="button" aria-label="Deftere not al" title="Deftere not al"><svg class="ico" aria-hidden="true"><use href="#i-notebook"/></svg></button>
       <button id="r-search" class="btn icon" type="button" aria-label="Kitap içinde ara (Ctrl+F)" title="Ara (Ctrl+F)"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></button>
       <button id="r-bm" class="btn icon" type="button" aria-label="Yer imi koy (B)" title="Yer imi (B)" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-bookmark"/></svg></button>
@@ -491,39 +496,6 @@
       <textarea id="rqn-body" class="qn-body-inp" placeholder="Buraya yaz veya PDF üzerinden yazı seç — seçtiğin metin anlık buraya eklenir…"></textarea>
       <div class="qn-foot">
         <span id="rqn-status" class="qn-status">Hazır</span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Okuyucu içinde Yapay Zekaya Sor paneli -->
-  <aside id="r-ai" class="ai-drawer" hidden aria-label="Yapay Zekaya Sor">
-    <div class="ai-head">
-      <div class="ai-head-top">
-        <div class="ai-head-text">
-          <div class="pop-label" style="margin:0 0 4px;">Yapay Zekaya Sor</div>
-          <div id="ai-ref" class="ai-ref"></div>
-        </div>
-        <div class="ai-head-btns">
-          <button id="ai-hist" class="btn sm" type="button" title="Bu PDF'teki tüm sohbetler" aria-pressed="false">Sohbetler</button>
-          <button id="ai-new" class="btn sm" type="button" title="Yeni sohbet başlat (eski sohbet Sohbetler listesinde kalır)">Yeni sohbet</button>
-          <button id="ai-close" class="btn icon small" type="button" aria-label="Kapat"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
-        </div>
-      </div>
-      <select id="ai-model" aria-label="Model seç"></select>
-    </div>
-    <div id="ai-status" class="ai-status" hidden role="status">
-      <span id="ai-status-text"></span>
-      <button id="ai-retry-bridge" class="btn sm" type="button">Tekrar dene</button>
-    </div>
-    <div id="ai-msgs" class="ai-msgs" aria-live="polite"></div>
-    <div id="ai-list" class="ai-list" hidden></div>
-    <div class="ai-composer">
-      <div id="ai-chips" class="ai-chips" hidden></div>
-      <div id="ai-hint" class="ai-hint" hidden></div>
-      <div class="ai-input-row">
-        <button id="ai-add-sel" class="btn icon small" type="button" aria-label="PDF'teki seçimi ekle" title="PDF'teki seçili yazıyı alıntı olarak ekle"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
-        <textarea id="ai-input" rows="1" placeholder="Sorunu yaz…" aria-label="Sorun"></textarea>
-        <button id="ai-send" class="btn icon small ai-send" type="button" aria-label="Gönder" title="Gönder (Enter)"><svg class="ico" aria-hidden="true"><use href="#i-move"/></svg></button>
       </div>
     </div>
   </aside>
@@ -692,6 +664,44 @@
   <div id="amb-list" class="amb-list"></div>
 </div>
 
+<!-- Yapay Zekaya Sor paneli: PDF okuyucu, Defter ve Masa için tek ortak panel -->
+<aside id="r-ai" class="ai-drawer" hidden aria-label="Yapay Zekaya Sor">
+  <div id="ai-resize" class="ai-resize" role="separator" aria-orientation="vertical" aria-label="Panel genişliği" tabindex="0" title="Genişliği ayarla"></div>
+  <div class="ai-head">
+    <div class="ai-head-top">
+      <div class="ai-head-text">
+        <button id="ai-back" class="ai-back" type="button" hidden>← Masa</button>
+        <div class="pop-label" style="margin:0 0 4px;">Yapay Zekaya Sor</div>
+        <div id="ai-ref" class="ai-ref"></div>
+      </div>
+      <div class="ai-head-btns">
+        <button id="ai-mem-btn" class="btn sm" type="button" title="Bu masanın yapay zeka hafızası" aria-pressed="false">Hafıza</button>
+        <button id="ai-hist" class="btn sm" type="button" title="Bu kapsamdaki tüm sohbetler" aria-pressed="false">Sohbetler</button>
+        <button id="ai-new" class="btn sm" type="button" title="Yeni sohbet başlat (eski sohbet Sohbetler listesinde kalır)">Yeni sohbet</button>
+        <button id="ai-full" class="btn icon small" type="button" aria-label="Tam ekran" title="Tam ekran"><svg class="ico" aria-hidden="true"><use id="ai-full-use" href="#i-expand"/></svg></button>
+        <button id="ai-close" class="btn icon small" type="button" aria-label="Kapat"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+    </div>
+    <select id="ai-model" aria-label="Model seç"></select>
+  </div>
+  <div id="ai-status" class="ai-status" hidden role="status">
+    <span id="ai-status-text"></span>
+    <button id="ai-retry-bridge" class="btn sm" type="button">Tekrar dene</button>
+  </div>
+  <div id="ai-msgs" class="ai-msgs" aria-live="polite"></div>
+  <div id="ai-list" class="ai-list" hidden></div>
+  <div id="ai-mem" class="ai-list ai-mem" hidden></div>
+  <div class="ai-composer">
+    <div id="ai-chips" class="ai-chips" hidden></div>
+    <div id="ai-hint" class="ai-hint" hidden></div>
+    <div class="ai-input-row">
+      <button id="ai-add-sel" class="btn icon small" type="button" aria-label="Seçimi ekle" title="Seçili yazıyı alıntı olarak ekle"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
+      <textarea id="ai-input" rows="1" placeholder="Sorunu yaz…" aria-label="Sorun"></textarea>
+      <button id="ai-send" class="btn icon small ai-send" type="button" aria-label="Gönder" title="Gönder (Enter)"><svg class="ico" aria-hidden="true"><use href="#i-move"/></svg></button>
+    </div>
+  </div>
+</aside>
+
 <div id="toasts" class="toasts" aria-live="polite"></div>
 
 <script src="vendor/pdfjs/pdf.worker.min.js"></script>
@@ -703,6 +713,7 @@
 <script src="js/accessories.js"></script>
 <script src="js/bookcase.js"></script>
 <script src="js/notebook.js"></script>
+<script src="js/hafiza.js"></script>
 <script src="js/ai.js"></script>
 <script src="js/desk.js"></script>
 <script src="js/reader.js"></script>

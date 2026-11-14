@@ -491,6 +491,7 @@
   }
 
   function queueSave() {
+    if (window.Hafiza && S.book && S.pdf) Hafiza.page(S.book.id, S.page, S.n, S.book.deskId || '');
     clearTimeout(S.saveTimer);
     S.saveTimer = setTimeout(flush, 450);
   }
@@ -1110,7 +1111,8 @@
       resetSearchResults(); setStatus('');
       S.search.q = ''; S.search.nq = '';
       showTab('toc');
-      if (window.AI) AI.onBookChanged({ id: book.id, title: book.title, author: book.author || '', page: book.page || 1 });
+      if (window.AI) AI.onBookChanged({ id: book.id, deskId: book.deskId || '', title: book.title, author: book.author || '', page: book.page || 1 });
+      if (window.Hafiza) Hafiza.event('book-opened', { bookId: book.id, title: book.title || '', page: book.page || 1, pages: S.n }, book.deskId || '');
       loadOutline(my);
       return DB.listBookmarks(book.id).then(function (list) {
         if (my !== S.openToken) return;
@@ -1148,7 +1150,7 @@
     if (inited) {
       closePanel();
       if (window.Notebook && Notebook.closeSidePanel) Notebook.closeSidePanel();
-      if (window.AI) { AI.close(); AI.onBookChanged(null); }
+      if (window.AI) AI.onBookChanged(null);
       $('#r-loading').hidden = true;
     }
   }
@@ -1477,6 +1479,33 @@
     syncModeButtons();
   }
 
+  // Yapay zekanın kitabı tanıması için ipuçları: üstveri, içindekiler başlıkları, ilk 3 sayfanın metni
+  function getIdentityClues() {
+    var pdf = S.pdf;
+    var out = { metaTitle: '', metaAuthor: '', outline: [], firstPagesText: '' };
+    if (!pdf) return Promise.resolve(out);
+    var pMeta = pdf.getMetadata().then(function (m) {
+      var i = (m && m.info) || {};
+      out.metaTitle = String(i.Title || '').replace(/\s+/g, ' ').trim().slice(0, 300);
+      out.metaAuthor = String(i.Author || '').replace(/\s+/g, ' ').trim().slice(0, 300);
+    }).catch(function () {});
+    var pOut = pdf.getOutline().then(function (o) {
+      out.outline = (o || []).map(function (it) { return String((it && it.title) || '').replace(/\s+/g, ' ').trim(); })
+        .filter(Boolean).slice(0, 40);
+    }).catch(function () {});
+    var parts = [];
+    var pText = Promise.resolve();
+    for (var p = 1; p <= Math.min(3, pdf.numPages); p++) {
+      (function (pn) {
+        pText = pText.then(function () { return pdf.getPage(pn); }).then(function (pg) { return pg.getTextContent(); }).then(function (c) {
+          parts.push(c.items.map(function (it) { return it.str; }).join(' ').replace(/\s+/g, ' ').trim());
+        });
+      })(p);
+    }
+    pText = pText.then(function () { out.firstPagesText = parts.join('\n\n').slice(0, 3000); }).catch(function () {});
+    return Promise.all([pMeta, pOut, pText]).then(function () { return out; });
+  }
+
   var stageSelApi = null;
 
   window.Reader = {
@@ -1487,6 +1516,7 @@
     open: open,
     close: close,
     flush: flush,
-    currentBook: function () { return S.book ? { id: S.book.id, title: S.book.title, author: S.book.author || '', page: S.page } : null; }
+    currentBook: function () { return S.book ? { id: S.book.id, deskId: S.book.deskId || '', title: S.book.title, author: S.book.author || '', page: S.page } : null; },
+    getIdentityClues: getIdentityClues
   };
 })();

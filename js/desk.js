@@ -296,6 +296,7 @@
         return addOnePdf(f, targetDesk, place).then(function (rec) {
           books.push(rec);
           ok++;
+          if (window.Hafiza) Hafiza.event('book-added', { bookId: rec.id, title: rec.title || '', pages: rec.pages || 0, fileName: rec.fileName || '' }, targetDesk);
         }, function (err) {
           console.error(f.name, err);
           fail.push(f.name);
@@ -375,6 +376,8 @@
     Accessories.renderOnDesk(d);
     Accessories.renderSettingsList(d);
     if (window.Notebook && Notebook.onDeskChange) Notebook.onDeskChange(d.id);
+    if (window.Hafiza) Hafiza.sync();
+    if (window.AI && AI.syncScope) AI.syncScope();
   }
 
   function applyDeskAppearance(desk) {
@@ -930,7 +933,12 @@
       if (!editingDeskId || desks.length <= 1) return;
       var delId = editingDeskId;
       var victimBooks = books.filter(function (b) { return b.deskId === delId; });
-      victimBooks.forEach(function (b) { DB.deleteBook(b.id).catch(function () {}); });
+      victimBooks.forEach(function (b) {
+        DB.deleteBook(b.id).catch(function () {});
+        if (window.AI && AI.forget) AI.forget(b.id);
+      });
+      if (window.AI && AI.forget) AI.forget('desk:' + delId);
+      if (window.AI && AI.deleteDeskMemory) AI.deleteDeskMemory(delId);
       books = books.filter(function (b) { return b.deskId !== delId; });
       desks = desks.filter(function (d) { return d.id !== delId; });
       DB.deleteDesk(delId).catch(function () {});
@@ -1045,6 +1053,7 @@
       if (coverURLs[id]) { URL.revokeObjectURL(coverURLs[id]); delete coverURLs[id]; }
       books = books.filter(function (b) { return b.id !== id; });
       DB.deleteBook(id).catch(function () {});
+      if (window.AI && AI.forget) AI.forget(id);
       $('#dlg-book-del').close();
       renderBooks();
       if (window.Bookcase) { Bookcase.invalidate(); Bookcase.render(); }
@@ -1078,6 +1087,10 @@
     selectDesk: selectDesk,
     getActive: getActive,
     getActiveId: function () { return activeDeskId; },
+    getDeskName: function (id) {
+      for (var i = 0; i < desks.length; i++) if (desks[i].id === id) return desks[i].name || '';
+      return '';
+    },
     saveCurrentDesk: saveCurrentDesk,
     applyMusicBoxPos: applyMusicBoxPos,
     bringToFront: bringToFront,

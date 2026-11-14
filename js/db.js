@@ -8,7 +8,7 @@
  *   topics      : defter konu başlıkları
  *   notes       : konu başlıkları altındaki notlar
  *   backgrounds : kullanıcının yüklediği özel arka plan fotoğrafları
- *   aichats     : PDF başına Yapay Zekaya Sor sohbeti (bookId anahtarlı)
+ *   aichats     : Yapay Zekaya Sor sohbetleri (anahtar: bookId | 'topic:<id>' | 'desk:<id>')
  *   settings    : genel uygulama ayarları
  */
 (function () {
@@ -100,7 +100,10 @@
       return tx('desks', 'readwrite', function (s) { s.desks.put(desk); });
     },
     deleteDesk: function (id) {
-      return tx('desks', 'readwrite', function (s) { s.desks.delete(id); });
+      return tx(['desks', 'aichats'], 'readwrite', function (s) {
+        s.desks.delete(id);
+        s.aichats.delete('desk:' + id);
+      });
     },
 
     // --- kitaplar / çalışma PDF'leri ---
@@ -165,6 +168,9 @@
     putAiChat: function (chat) {
       return tx('aichats', 'readwrite', function (s) { s.aichats.put(chat); });
     },
+    listAiChats: function () {
+      return tx('aichats', 'readonly', function (s) { return s.aichats.getAll(); });
+    },
     deleteAiChat: function (bookId) {
       return tx('aichats', 'readwrite', function (s) { s.aichats.delete(bookId); });
     },
@@ -196,8 +202,9 @@
       return tx('topics', 'readwrite', function (s) { s.topics.put(topic); });
     },
     deleteTopic: function (id) {
-      return tx(['topics', 'notes'], 'readwrite', function (s) {
+      return tx(['topics', 'notes', 'aichats'], 'readwrite', function (s) {
         s.topics.delete(id);
+        s.aichats.delete('topic:' + id);
         var cur = s.notes.index('topicId').openKeyCursor(IDBKeyRange.only(id));
         cur.onsuccess = function () {
           var c = cur.result;

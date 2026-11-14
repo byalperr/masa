@@ -552,6 +552,17 @@
     renderNotesList();
     renderEditor();
     renderDeskWidget();
+    if (window.AI && AI.syncScope) AI.syncScope();
+  }
+
+  // Masa hafızası: yalnız kullanıcı düzenlediyse (queue* çağrıldıysa) not özeti köprüye bildirilir
+  var hafDirty = {};
+  function hafizaNote(n) {
+    if (!n || !hafDirty[n.id]) return;
+    delete hafDirty[n.id];
+    if (!window.Hafiza) return;
+    var t = getTopic(n.topicId);
+    Hafiza.noteSaved(n.topicId, t ? t.title : '', n.id, n.title || '', n.content || '', t ? t.deskId : n.deskId);
   }
 
   function saveActiveNoteNow() {
@@ -559,12 +570,14 @@
     var n = getNote(activeNoteId);
     if (!n) return;
     n.updatedAt = Date.now();
+    hafizaNote(n);
     var status = $('#nb-save-status');
     if (status) status.textContent = 'Kaydedildi';
     DB.putNote(n).catch(function () {});
   }
 
   function queueSaveNote() {
+    if (activeNoteId) hafDirty[activeNoteId] = true;
     var status = $('#nb-save-status');
     if (status) status.textContent = 'Kaydediliyor…';
     clearTimeout(saveTimer);
@@ -773,6 +786,7 @@
     var n = getNote(sideNoteId);
     if (!n) return;
     n.updatedAt = Date.now();
+    hafizaNote(n);
     DB.putNote(n).catch(function () {});
     setSideStatus('Kaydedildi', false);
     renderNotesList();
@@ -780,6 +794,7 @@
   }
 
   function queueSideSave() {
+    if (sideNoteId) hafDirty[sideNoteId] = true;
     setSideStatus('Kaydediliyor…', false);
     clearTimeout(sideSaveTimer);
     sideSaveTimer = setTimeout(saveSideNoteNow, 300);
@@ -858,6 +873,10 @@
     renderNotesList();
     renderDeskWidget();
     setSideStatus('Anlık aktarıldı · s. ' + (pageNum || 1), true);
+    if (window.Hafiza) {
+      var qt = getTopic(n.topicId);
+      Hafiza.quote(book ? book.id : (n.bookId || null), n.topicId || null, cleaned, pageNum || null, (book && book.deskId) || (qt && qt.deskId) || '');
+    }
     return true;
   }
 
@@ -878,7 +897,10 @@
 
   function deleteDeskData(deskId) {
     var victimTopics = topics.filter(function (t) { return t.deskId === deskId; });
-    victimTopics.forEach(function (t) { DB.deleteTopic(t.id).catch(function () {}); });
+    victimTopics.forEach(function (t) {
+      DB.deleteTopic(t.id).catch(function () {});
+      if (window.AI && AI.forget) AI.forget('topic:' + t.id);
+    });
     var victimIds = {};
     victimTopics.forEach(function (t) { victimIds[t.id] = true; });
     var victimNotes = notes.filter(function (n) { return n.deskId === deskId || victimIds[n.topicId]; });
@@ -1046,6 +1068,7 @@
       topics = topics.filter(function (t) { return t.id !== editingTopicId; });
       notes = notes.filter(function (n) { return n.topicId !== editingTopicId; });
       DB.deleteTopic(editingTopicId).catch(function () {});
+      if (window.AI && AI.forget) AI.forget('topic:' + editingTopicId);
       if (activeTopicId === editingTopicId) {
         var rem = visibleTopics();
         activeTopicId = rem[0] ? rem[0].id : null;
@@ -1152,6 +1175,14 @@
     closeSidePanel: closeSidePanel,
     toggleSidePanel: toggleSidePanel,
     isSidePanelOpen: isSidePanelOpen,
+    getActiveTopic: function () {
+      var t = getTopic(activeTopicId);
+      return t ? { id: t.id, title: t.title || '', deskId: t.deskId } : null;
+    },
+    getActiveNote: function () {
+      var n = getNote(activeNoteId);
+      return n ? { id: n.id, title: n.title || '', topicId: n.topicId } : null;
+    },
     updateSidePanelContext: updateSidePanelContext,
     appendSelectionToSidePanel: appendSelectionToSidePanel,
     openQuickDrawer: openSidePanel,
