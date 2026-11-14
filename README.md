@@ -15,10 +15,19 @@ Kişisel çalışma ortamı uygulaması. Sunucu, kurulum veya internet gerektirm
 ## Yapay Zekaya Sor
 PDF okuyucuda seçtiğin yazı hakkında yapay zekaya soru sorabilirsin. Bu özellik isteğe bağlıdır; Masa'nın geri kalanı onsuz da çalışır.
 
-### Gerekenler
-- **Python 3.7 veya üstü** ([python.org](https://www.python.org/downloads/)). Windows'ta kurarken "Add Python to PATH" kutusunu işaretle.
-- **Antigravity CLI (`agy`)** kurulu ve hesabına giriş yapılmış olmalı. Terminalde `agy models` komutu model listesini gösteriyorsa hazırsın.
-- Ek bir paket kurulmaz; köprü yalnız Python'un kendi kütüphanelerini kullanır.
+### Kolay kurulum (ilk sefer)
+- **Windows**: Masa klasöründeki **`Kurulum.bat`** dosyasına çift tıkla.
+- **macOS / Linux**: Masa klasöründe terminal aç ve `bash kurulum.sh` çalıştır.
+
+Kurulum yardımcısı sırasıyla şunlara bakar ve eksik olanı (sana sorarak) tamamlar:
+1. **Python 3.7+** — Windows'ta winget ile yalnız senin kullanıcına kurulur (yönetici izni gerekmez). macOS/Linux'ta kurulum komutunu gösterir.
+2. **Antigravity CLI (`agy`)** — Antigravity'nin [resmi kurulum betiğiyle](https://antigravity.google/docs/getting-started) kurulur (yaklaşık 230 MB).
+3. **agy girişi** — Giriş yapılmamışsa agy açılır; tarayıcıda Google hesabınla giriş yapıp agy'de `/exit` yazarsın.
+4. **Köprü** — Windows'ta masaüstüne "Masa AI Köprüsü" kısayolu koyabilir ve köprüyü başlatabilir.
+
+Zaten kurulu olanları atlar; tekrar çalıştırmak zararsızdır, bir şey bozulursa onarım için de kullanılabilir. Köprü yalnız Python'un kendi kütüphanelerini kullanır, ek paket kurulmaz.
+
+Elle kurmak istersen: Python 3.7+ ([python.org](https://www.python.org/downloads/), Windows'ta "Add Python to PATH" işaretli) ve `agy` (terminalde `agy models` model listesini gösteriyorsa hazırsın).
 
 ### Köprüyü başlat
 Tarayıcı terminal komutu çalıştıramadığı için soruları `agy`'ye küçük bir yerel köprü (`ai_kopru.py`) iletir.

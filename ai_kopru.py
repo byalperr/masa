@@ -160,7 +160,7 @@ def run_agy(prompt, model, conversation_id):
 
 def ask(data):
     if not AGY:
-        return 500, {"ok": False, "error": "agy bulunamadı. Antigravity CLI kurulu ve PATH'te olmalı."}
+        return 500, {"ok": False, "error": "agy bulunamadı. Masa klasöründeki Kurulum.bat (macOS/Linux: kurulum.sh) ile kur."}
     model = data.get("model") or DEFAULT_MODEL
     if not valid_model(model):
         return 400, {"ok": False, "error": f"Bilinmeyen model: {clip(model, 80)}"}
@@ -266,7 +266,7 @@ def main():
     if sys.stdout and hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     if not AGY:
-        print("UYARI: agy bulunamadı. Antigravity CLI kurulu olmalı.")
+        print("UYARI: agy bulunamadı. Önce Kurulum.bat (macOS/Linux: bash kurulum.sh) çalıştır.")
     try:
         srv = ThreadingHTTPServer((HOST, PORT), Handler)
     except OSError:

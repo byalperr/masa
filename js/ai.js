@@ -463,7 +463,9 @@
       t.textContent = '';
       t.appendChild(document.createTextNode('AI köprüsü kapalı. Masa klasöründeki '));
       t.appendChild(el('code', null, 'AI Köprüsü Başlat.bat'));
-      t.appendChild(document.createTextNode(' dosyasını çalıştır.'));
+      t.appendChild(document.createTextNode(' dosyasını çalıştır. İlk kez kullanıyorsan önce '));
+      t.appendChild(el('code', null, 'Kurulum.bat'));
+      t.appendChild(document.createTextNode(' ile gerekenleri kur.'));
       box.hidden = false;
     } else {
       box.hidden = true;
