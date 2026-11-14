@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="tr" class="is-dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masa</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- SVG simge takımı -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-back" viewBox="0 0 20 20"><path d="M12.5 4.5 7 10l5.5 5.5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 20 20"><path d="M10 4v12M4 10h12"/></symbol>
+    <symbol id="i-search" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="m13 13 3.5 3.5"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 20 20"><path d="M3 6h7M14 6h3M3 14h3M10 14h7"/><circle cx="12" cy="6" r="2"/><circle cx="8" cy="14" r="2"/></symbol>
+    <symbol id="i-more" viewBox="0 0 20 20"><circle cx="4.5" cy="10" r=".6"/><circle cx="10" cy="10" r=".6"/><circle cx="15.5" cy="10" r=".6"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 20 20"><path d="M5.5 3.5h9v13L10 13l-4.5 3.5z"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6.5"/><path d="M10 3.5v13"/><path d="M10 3.5a6.5 6.5 0 0 1 0 13z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-zoom-in" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="m13 13 3.5 3.5M9 7v4M7 9h4"/></symbol>
+    <symbol id="i-zoom-out" viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="m13 13 3.5 3.5M7 9h4"/></symbol>
+    <symbol id="i-single" viewBox="0 0 20 20"><rect x="5.5" y="3.5" width="9" height="13" rx="1"/></symbol>
+    <symbol id="i-spread" viewBox="0 0 20 20"><path d="M10 5.5v11M10 5.5C8.5 4.3 5.8 4 3.5 4.5v11c2.3-.5 5-.2 6.5 1M10 5.5c1.5-1.2 4.2-1.5 6.5-1v11c-2.3-.5-5-.2-6.5 1"/></symbol>
+    <symbol id="i-x" viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 20 20"><path d="m7.5 4.5 5.5 5.5-5.5 5.5"/></symbol>
+    <symbol id="i-up" viewBox="0 0 20 20"><path d="m5 12.5 5-5 5 5"/></symbol>
+    <symbol id="i-down" viewBox="0 0 20 20"><path d="m5 7.5 5 5 5-5"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 20 20"><path d="M4 6h12M8 6V4h4v2M5.5 6l.7 10h7.6l.7-10M8.5 9v4.5M11.5 9v4.5"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 20 20"><path d="m4 16 .6-3L13.5 4a1.4 1.4 0 0 1 2 2L6.6 15z"/><path d="m12 5.5 2.5 2.5"/></symbol>
+    <symbol id="i-fitw" viewBox="0 0 20 20"><path d="M3 4v12M17 4v12M6.5 10h7M6.5 10l2-2M6.5 10l2 2M13.5 10l-2-2M13.5 10l-2 2"/></symbol>
+    <symbol id="i-fitp" viewBox="0 0 20 20"><path d="M3.5 7V3.5H7M13 3.5h3.5V7M16.5 13v3.5H13M7 16.5H3.5V13"/><rect x="7" y="6.5" width="6" height="7" rx=".5"/></symbol>
+    <symbol id="i-panel" viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="12" rx="1.5"/><path d="M12 4v12"/></symbol>
+    <symbol id="i-volume" viewBox="0 0 20 20"><path d="M3.5 7.5h3l4-3.5v12l-4-3.5h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/><path d="M14 7a4 4 0 0 1 0 6M16 5a7 7 0 0 1 0 10"/></symbol>
+    <symbol id="i-volume-x" viewBox="0 0 20 20"><path d="M3.5 7.5h3l4-3.5v12l-4-3.5h-3a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/><path d="m14 8 4 4M18 8l-4 4"/></symbol>
+    <symbol id="i-play" viewBox="0 0 20 20"><polygon points="6,4 16,10 6,16" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 20 20"><rect x="5" y="4" width="3.5" height="12" rx=".8" fill="currentColor" stroke="none"/><rect x="11.5" y="4" width="3.5" height="12" rx=".8" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 20 20"><rect x="4" y="5" width="2" height="10" fill="currentColor" stroke="none"/><polygon points="15,5 7,10 15,15" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-next" viewBox="0 0 20 20"><rect x="14" y="5" width="2" height="10" fill="currentColor" stroke="none"/><polygon points="5,5 13,10 5,15" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 20 20"><path d="M3 6h3.5l7 8H17M17 6h-3.5l-2 2.3M3 14h3.5l2-2.3"/><path d="m14.5 4 2.5 2-2.5 2M14.5 12l2.5 2-2.5 2"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 20 20"><path d="M15 6H6a3 3 0 0 0-3 3v1M5 14h9a3 3 0 0 0 3-3v-1"/><path d="m13 4 2.5 2L13 8M7 12l-2.5 2L7 16"/></symbol>
+    <symbol id="i-music" viewBox="0 0 20 20"><path d="M8 14.5V5l8-1.5V13"/><circle cx="6" cy="14.5" r="2"/><circle cx="14" cy="13" r="2"/></symbol>
+    <symbol id="i-notebook" viewBox="0 0 20 20"><rect x="4.5" y="3" width="11" height="14" rx="1.5"/><path d="M8 3v14M10.5 7h3M10.5 10h3"/></symbol>
+    <symbol id="i-desk" viewBox="0 0 20 20"><path d="M2.5 7.5h15M4 7.5v8.5M16 7.5v8.5M4 10.5h12"/></symbol>
+    <symbol id="i-lamp" viewBox="0 0 20 20"><path d="M6 16h8M10 16v-4M5.5 10L8 4h4l2.5 6z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 20 20"><path d="m10 3.2 2.1 4.3 4.7.7-3.4 3.3.8 4.7-4.2-2.2-4.2 2.2.8-4.7-3.4-3.3 4.7-.7z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 20 20"><path d="M7 4h6l-1 4.5 2.5 2.5v1.5h-4V17l-.5-4.5H5.5V11L8 8.5z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 20 20"><path d="M10 3.5v9M6.5 9.5 10 13l3.5-3.5M4 16h12"/></symbol>
+    <symbol id="i-move" viewBox="0 0 20 20"><path d="M4 10h12M12 6l4 4-4 4"/></symbol>
+    <symbol id="i-shelf" viewBox="0 0 20 20"><path d="M3 4.5h14v11H3zM3 10h14M6.5 4.5V10M10 4.5V10M13.5 10v5.5"/></symbol>
+    <symbol id="i-ai" viewBox="0 0 20 20"><path d="M8.5 3.5 10 8l4.5 1.5L10 11l-1.5 4.5L7 11 2.5 9.5 7 8z"/><path d="M15 3v3M13.5 4.5h3M15.5 12.5v3M14 14h3"/></symbol>
+    <symbol id="i-dual" viewBox="0 0 20 20"><rect x="3" y="5" width="8" height="11" rx="1"/><rect x="9" y="3.5" width="8" height="11" rx="1"/></symbol>
+  </defs>
+</svg>
+
+<!-- ================= MASA ÇALIŞMA ORTAMI ================= -->
+<section id="view-desk" class="view" aria-label="Çalışma Masası">
+  <header class="top-head">
+    <div class="brand-cluster">
+      <span class="brand-mark serif">Masa</span>
+      <div class="pop-wrap">
+        <button id="btn-desk-switcher" class="desk-pill" type="button" aria-haspopup="true" aria-expanded="false">
+          <svg class="ico" aria-hidden="true"><use href="#i-desk"/></svg>
+          <span id="desk-active-name">Ana Çalışma Masam</span>
+          <svg class="ico ico-sm" aria-hidden="true"><use href="#i-down"/></svg>
+        </button>
+        <div id="pop-desks" class="popover pop-desks" hidden role="dialog" aria-label="Masalar">
+          <p class="pop-label">Masaların</p>
+          <div id="desk-switcher-list" class="desk-switcher-list"></div>
+          <div class="pop-foot-btns">
+            <button id="btn-new-desk-pop" class="btn primary sm" type="button">
+              <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Yeni Masa</span>
+            </button>
+            <button id="btn-manage-desks" class="btn sm" type="button">Yönet</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-tools">
+      <label class="field search">
+        <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="desk-search" type="search" placeholder="Masadaki PDF'lerde ara" aria-label="PDF ara" autocomplete="off">
+      </label>
+
+      <button id="btn-add-pdf" class="btn primary" type="button">
+        <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>PDF Ekle</span>
+      </button>
+
+      <button id="nav-to-notebook" class="btn" type="button" title="Konu başlıklı Defter bölümünü aç">
+        <svg class="ico" aria-hidden="true"><use href="#i-notebook"/></svg><span>Defter</span>
+      </button>
+
+      <button id="nav-to-music" class="btn" type="button" title="Müzik kütüphanesi">
+        <svg class="ico" aria-hidden="true"><use href="#i-music"/></svg><span>Müzikler</span>
+      </button>
+
+      <div class="pop-wrap">
+        <button id="btn-desk-acc" class="btn icon" type="button" title="Masa aksesuarları" aria-label="Masa aksesuarları" aria-haspopup="true" aria-expanded="false">
+          <svg class="ico" aria-hidden="true"><use href="#i-lamp"/></svg>
+        </button>
+        <div id="pop-desk-acc" class="popover pop-wide right" hidden role="dialog" aria-label="Masa Aksesuarları">
+          <div class="pop-head-row">
+            <p class="pop-label" style="margin:0">Masa Aksesuarları</p>
+            <button id="acc-reset-pos" class="link-btn" type="button">Konumları sıfırla</button>
+          </div>
+          <p class="pop-hint">Aksesuarları masanın üstünde tutup sürükleyebilirsin.</p>
+          <div id="acc-settings-list" class="acc-cfg-list"></div>
+        </div>
+      </div>
+
+      <div class="pop-wrap">
+        <button id="btn-desk-theme" class="btn icon" type="button" title="Tema, masa yüzeyi ve arka plan" aria-label="Görünüm ayarları" aria-haspopup="true" aria-expanded="false">
+          <svg class="ico" aria-hidden="true"><use href="#i-sliders"/></svg>
+        </button>
+        <div id="pop-desk-theme" class="popover pop-wide right" hidden role="dialog" aria-label="Masa Görünümü">
+          <p class="pop-label">Ortam Teması</p>
+          <select id="set-desk-theme" aria-label="Ortam teması">
+            <option value="ceviz">Ceviz Çalışma</option>
+            <option value="gece">Gece Lambası</option>
+            <option value="sepya">Sıcak Sepya</option>
+            <option value="orman">Orman Yeşili</option>
+            <option value="siyah">Saf Siyah</option>
+            <option value="kagit">Aydınlık Kâğıt</option>
+          </select>
+
+          <p class="pop-label">Masa Yüzeyi</p>
+          <div class="seg seg-wrap" id="set-desk-surface" role="radiogroup" aria-label="Masa yüzeyi">
+            <button type="button" role="radio" data-surface="ceviz">Ceviz</button>
+            <button type="button" role="radio" data-surface="mese">Meşe</button>
+            <button type="button" role="radio" data-surface="siyah">Siyah</button>
+            <button type="button" role="radio" data-surface="mermer">Mermer</button>
+            <button type="button" role="radio" data-surface="sumen">Sümen</button>
+          </div>
+
+          <p class="pop-label">Arka Plan Fotoğrafı</p>
+          <div class="bg-picker" role="radiogroup" aria-label="Arka plan fotoğrafı">
+            <button type="button" class="bg-opt-none" data-bg="none" role="radio" aria-checked="false">
+              <svg class="ico" aria-hidden="true" style="width:14px;height:14px;"><use href="#i-x"/></svg>
+              <span>Yok (düz renk)</span>
+            </button>
+            <div class="bg-grid">
+              <button type="button" class="bg-thumb" data-bg="01" role="radio" title="Eski Kütüphane" style="background-image:url('img/bg/thumb/bg-01.jpg')"><span class="bg-num">01</span></button>
+              <button type="button" class="bg-thumb" data-bg="02" role="radio" title="Yağmurlu Gece" style="background-image:url('img/bg/thumb/bg-02.jpg')"><span class="bg-num">02</span></button>
+              <button type="button" class="bg-thumb" data-bg="03" role="radio" title="Sonbahar Ormanı" style="background-image:url('img/bg/thumb/bg-03.jpg')"><span class="bg-num">03</span></button>
+              <button type="button" class="bg-thumb" data-bg="04" role="radio" title="Şömineli Oda" style="background-image:url('img/bg/thumb/bg-04.jpg')"><span class="bg-num">04</span></button>
+              <button type="button" class="bg-thumb" data-bg="06" role="radio" title="Parşömen Dokusu" style="background-image:url('img/bg/thumb/bg-06.jpg')"><span class="bg-num">06</span></button>
+              <button type="button" class="bg-thumb" data-bg="07" role="radio" title="Dağ Kulübesi" style="background-image:url('img/bg/thumb/bg-07.jpg')"><span class="bg-num">07</span></button>
+              <button type="button" class="bg-thumb" data-bg="08" role="radio" title="Japon Bahçesi" style="background-image:url('img/bg/thumb/bg-08.jpg')"><span class="bg-num">08</span></button>
+            </div>
+            <div id="custom-bg-grid" class="bg-grid"></div>
+            <button id="btn-add-custom-bg" class="btn sm" type="button" style="width:100%;justify-content:center;">
+              <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Kendi Fotoğrafını Yükle</span>
+            </button>
+            <input id="custom-bg-input" type="file" accept="image/*" hidden>
+          </div>
+        </div>
+      </div>
+
+      <div class="pop-wrap">
+        <button id="btn-ambience" class="btn icon" type="button" title="Ambiyans sesleri" aria-label="Ambiyans sesleri" aria-haspopup="true" aria-expanded="false">
+          <svg class="ico" aria-hidden="true"><use href="#i-volume"/></svg>
+        </button>
+      </div>
+    </div>
+    <input id="pdf-file-input" type="file" accept="application/pdf,.pdf" multiple hidden>
+  </header>
+
+  <main class="desk-shell">
+    <!-- Masanın Önündeki Kitaplık (Kitaplık projesinden) -->
+    <section id="desk-bookcase" class="desk-bookcase" aria-label="Masanın Önündeki Kitaplık">
+      <div class="bc-head">
+        <div class="bc-title-wrap">
+          <svg class="ico" aria-hidden="true"><use href="#i-shelf"/></svg>
+          <h2 class="bc-title serif">Masanın Önündeki Kitaplık</h2>
+          <span id="bc-count" class="zone-badge">0 Kitap</span>
+        </div>
+
+        <div class="bc-tools">
+          <select id="bc-sort" class="bc-sort" aria-label="Kitaplık sıralaması">
+            <option value="recent">Son okunan</option>
+            <option value="title">Başlık</option>
+            <option value="added">Eklenme tarihi</option>
+          </select>
+
+          <div id="bc-mode-seg" class="seg sm" role="radiogroup" aria-label="Raf görünümü">
+            <button type="button" role="radio" data-shelf="spines" class="on" aria-checked="true">Sırtlar</button>
+            <button type="button" role="radio" data-shelf="covers" aria-checked="false">Kapaklar</button>
+          </div>
+
+          <div id="bc-mat-seg" class="seg sm" role="radiogroup" aria-label="Dolap malzemesi">
+            <button type="button" role="radio" data-mat="ahsap" class="on" aria-checked="true">Ahşap</button>
+            <button type="button" role="radio" data-mat="metal" aria-checked="false">Metal</button>
+            <button type="button" role="radio" data-mat="siyah" aria-checked="false">Siyah</button>
+          </div>
+
+          <button id="btn-shelf-add-pdf" class="btn sm" type="button" title="Doğrudan kitaplığa PDF ekle">
+            <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Rafa Ekle</span>
+          </button>
+
+          <button id="btn-bc-toggle" class="btn icon small" type="button" title="Kitaplığı daralt / aç" aria-expanded="true">
+            <svg class="ico" aria-hidden="true"><use href="#i-up"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="bc-body" class="bc-body">
+        <p id="bc-empty-note" class="bc-empty-note" hidden>Kitaplıkta henüz kitap yok. Rafa PDF ekleyebilir ya da masadaki bir kitabı yukarı sürükleyebilirsin.</p>
+        <div id="shelves" class="shelves mode-spines mat-ahsap"></div>
+      </div>
+    </section>
+
+    <div id="desk-stage" class="desk-stage surf-ceviz">
+      <!-- Masa üstü durum ve sürükle ipucu -->
+      <div class="desk-surface-hud">
+        <span class="zone-badge">Masa Üstü</span>
+        <span id="desk-books-count" class="zone-badge">Boş</span>
+        <button id="btn-desk-new-notebook" class="mbox-lib-btn hud-btn" type="button">
+          <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>
+          <span>Yeni Defter</span>
+        </button>
+        <span class="desk-drag-tip">PDF'leri, defterleri, müzik çaları ve aksesuarları masanın her kenarına sürükle · aşağı kaydırabilirsin</span>
+      </div>
+
+      <!-- Sürüklenebilir masa aksesuarları katmanı -->
+      <div id="desk-acc-layer" class="desk-acc-layer"></div>
+
+      <!-- Masada PDF yoksa boş mesaj -->
+      <div id="desk-books-empty" class="desk-empty desk-empty-float" hidden>
+        <p class="desk-empty-title">Masanın üstünde henüz PDF yok.</p>
+        <p class="desk-empty-sub">PDF'leri buraya sürükle, kitaplıktan aşağı çıkar ya da <button id="empty-add-pdf" class="link" type="button">dosya seç</button>.</p>
+      </div>
+
+      <!-- Serbest konumlanabilen Masa PDF Kapakları -->
+      <div id="desk-books-grid" class="desk-books-canvas"></div>
+
+      <!-- Serbest konumlanabilen Masaya Ait Ciltli Defterler -->
+      <div id="desk-notebooks-list" class="desk-notebooks-canvas" aria-label="Masadaki Defterler"></div>
+
+      <!-- Sürüklenebilir Fiziksel Müzik Kutusu -->
+      <section id="desk-music-box" class="music-box desk-draggable-box" aria-label="Müzik Kutusu">
+        <div class="mbox-top">
+          <div id="mbox-art" class="mbox-vinyl">
+            <span class="vinyl-hole"></span>
+          </div>
+          <div class="mbox-info">
+            <div class="mbox-kicker">MÜZİK KUTUSU</div>
+            <div id="mbox-title" class="mbox-title">Müzik Kutusu Boş</div>
+            <div id="mbox-artist" class="mbox-artist">Şarkı seç veya ekle</div>
+            <button id="mbox-open-lib" class="mbox-lib-btn" type="button">
+              <svg class="ico" aria-hidden="true"><use href="#i-music"/></svg>
+              <span id="mbox-count">Müzik ekle</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mbox-progress-wrap">
+          <div id="mbox-prog" class="mbox-prog" role="slider" aria-label="Şarkı konumu">
+            <div id="mbox-prog-fill" class="mbox-prog-fill"></div>
+          </div>
+          <div class="mbox-times">
+            <span id="mbox-time-cur">0:00</span>
+            <span id="mbox-time-dur">0:00</span>
+          </div>
+        </div>
+
+        <div class="mbox-controls">
+          <button id="mbox-shuffle" class="btn icon small" type="button" title="Karıştır"><svg class="ico" aria-hidden="true"><use href="#i-shuffle"/></svg></button>
+          <button id="mbox-prev" class="btn icon small" type="button" title="Önceki"><svg class="ico" aria-hidden="true"><use href="#i-prev"/></svg></button>
+          <button id="mbox-play" class="mbox-play-btn" type="button" title="Oynat / Duraklat"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg></button>
+          <button id="mbox-next" class="btn icon small" type="button" title="Sonraki"><svg class="ico" aria-hidden="true"><use href="#i-next"/></svg></button>
+          <button id="mbox-repeat" class="btn icon small" type="button" title="Tekrarla"><svg class="ico" aria-hidden="true"><use href="#i-repeat"/></svg></button>
+          <input class="mbox-vol" type="range" min="0" max="100" value="75" aria-label="Müzik sesi" title="Ses düzeyi">
+        </div>
+      </section>
+    </div>
+  </main>
+</section>
+
+<!-- ================= DEFTER BÖLÜMÜ ================= -->
+<section id="view-notebook" class="view" aria-label="Defter" hidden>
+  <header class="top-head nb-head">
+    <div class="brand-cluster">
+      <button id="nb-back" class="btn" type="button">
+        <svg class="ico" aria-hidden="true"><use href="#i-back"/></svg><span>Masaya Dön</span>
+      </button>
+      <h1 class="brand-mark serif">Defter</h1>
+      <span id="nb-desk-badge" class="zone-badge">Masa</span>
+    </div>
+
+    <div class="top-tools">
+      <div class="mini-music" aria-label="Müzik kontrolü">
+        <button class="btn icon small mini-play" type="button" title="Oynat / Duraklat"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg></button>
+        <button class="btn icon small mini-next" type="button" title="Sonraki"><svg class="ico" aria-hidden="true"><use href="#i-next"/></svg></button>
+        <button class="mini-open" type="button" title="Müzik seç"><span class="mini-track">Müzik Yok</span></button>
+      </div>
+      <div class="pop-wrap">
+        <button id="nb-ambience" class="btn icon" type="button" title="Ambiyans sesleri" aria-label="Ambiyans sesleri"><svg class="ico" aria-hidden="true"><use href="#i-volume"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="nb-layout">
+    <aside class="nb-topics-col" aria-label="Defterler ve Konu Başlıkları">
+      <div class="nb-col-head">
+        <span class="pop-label" style="margin:0">Defterler</span>
+        <button id="nb-new-topic" class="btn sm primary" type="button">
+          <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Defter</span>
+        </button>
+      </div>
+      <label class="field nb-search-field">
+        <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="nb-search" type="search" placeholder="Notlarda ara…" autocomplete="off">
+      </label>
+      <div id="nb-topics-list" class="nb-topics-list"></div>
+    </aside>
+
+    <aside class="nb-notes-col" aria-label="Konu Notları">
+      <div class="nb-col-head">
+        <span id="nb-notes-topic-title" class="nb-notes-topic-title serif">Konu</span>
+        <button id="nb-new-note" class="btn sm primary" type="button">
+          <svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Not</span>
+        </button>
+      </div>
+      <p id="nb-notes-empty" class="nb-empty-list" hidden>Bu konu altında henüz not yok.</p>
+      <div id="nb-notes-list" class="nb-notes-list"></div>
+    </aside>
+
+    <main class="nb-editor-col" aria-label="Not Editörü">
+      <div id="nb-editor-empty" class="nb-editor-empty" hidden>
+        <p class="serif" style="font-size:22px;margin:0 0 8px;">Bir not seç veya yeni bir not başlat</p>
+        <p style="color:var(--muted);margin:0;">Konu başlıkları altında çalışma notlarını, özetlerini ve yapılacaklarını düzenleyebilirsin.</p>
+      </div>
+
+      <div id="nb-editor-wrap" class="nb-editor-wrap" data-mode="split">
+        <div class="nb-ed-top">
+          <input id="nb-note-title" class="nb-title-inp serif" type="text" placeholder="Not başlığı…">
+          <div class="nb-ed-actions">
+            <span id="nb-save-status" class="nb-save-status">Kaydedildi</span>
+            <div class="seg nb-mode-seg">
+              <button type="button" data-nb-mode="edit">Yaz</button>
+              <button type="button" data-nb-mode="split" class="on">Bölünmüş</button>
+              <button type="button" data-nb-mode="preview">Oku</button>
+            </div>
+            <button id="nb-note-pin" class="btn icon small" type="button" title="Sabitle"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg></button>
+            <button id="nb-note-export" class="btn icon small" type="button" title="Markdown (.md) indir"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg></button>
+            <button id="nb-note-del" class="btn icon small" type="button" title="Notu sil"><svg class="ico" aria-hidden="true"><use href="#i-trash"/></svg></button>
+          </div>
+        </div>
+        <div id="nb-note-meta" class="nb-note-meta-bar"></div>
+        <div class="nb-fmt-bar" role="toolbar" aria-label="Biçimlendirme">
+          <button type="button" data-nb-fmt="h2" title="Alt başlık">H2</button>
+          <button type="button" data-nb-fmt="bold" title="Kalın"><strong>B</strong></button>
+          <button type="button" data-nb-fmt="italic" title="İtalik"><em>I</em></button>
+          <button type="button" data-nb-fmt="quote" title="Alıntı">❝</button>
+          <button type="button" data-nb-fmt="ul" title="Madde listesi">• Liste</button>
+          <button type="button" data-nb-fmt="check" title="Yapılacak kutusu">☑ Görev</button>
+          <button type="button" data-nb-fmt="code" title="Kod">&lt;/&gt;</button>
+          <button type="button" data-nb-fmt="date" title="Tarih/saat ekle">Tarih</button>
+        </div>
+        <div class="nb-panes">
+          <textarea id="nb-note-body" class="nb-textarea" placeholder="Çalışma notlarını Markdown biçiminde yazmaya başla…"></textarea>
+          <div id="nb-note-preview" class="nb-preview"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<!-- ================= PDF OKUYUCU ================= -->
+<section id="view-reader" class="view" aria-label="Okuyucu" hidden>
+  <div id="r-top" class="bar top">
+    <button id="r-back" class="btn icon" type="button" aria-label="Masaya dön (Esc)" title="Masaya dön (Esc)"><svg class="ico" aria-hidden="true"><use href="#i-back"/></svg></button>
+    <div class="r-title"><span id="r-title" class="serif"></span><span id="r-author" class="r-author"></span></div>
+    <div class="r-actions">
+      <div class="mini-music mini-reader" aria-label="Müzik kontrolü">
+        <button class="btn icon small mini-play" type="button" title="Müzik oynat/duraklat"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg></button>
+        <button class="mini-open" type="button" title="Müzik seç"><span class="mini-track">Müzik</span></button>
+      </div>
+      <div class="group" role="group" aria-label="Görünüm">
+        <button id="r-single" class="btn icon" type="button" aria-label="Tek sayfa" title="Tek sayfa"><svg class="ico" aria-hidden="true"><use href="#i-single"/></svg></button>
+        <button id="r-spread" class="btn icon" type="button" aria-label="İki sayfa yan yana" title="İki sayfa yan yana"><svg class="ico" aria-hidden="true"><use href="#i-spread"/></svg></button>
+      </div>
+      <div class="group" role="group" aria-label="Yakınlaştırma">
+        <button id="r-zout" class="btn icon" type="button" aria-label="Uzaklaştır (-)" title="Uzaklaştır (-)"><svg class="ico" aria-hidden="true"><use href="#i-zoom-out"/></svg></button>
+        <button id="r-fitw" class="btn icon" type="button" aria-label="Genişliğe sığdır" title="Genişliğe sığdır"><svg class="ico" aria-hidden="true"><use href="#i-fitw"/></svg></button>
+        <button id="r-fitp" class="btn icon" type="button" aria-label="Sayfaya sığdır" title="Sayfaya sığdır"><svg class="ico" aria-hidden="true"><use href="#i-fitp"/></svg></button>
+        <button id="r-zin" class="btn icon" type="button" aria-label="Yakınlaştır (+)" title="Yakınlaştır (+)"><svg class="ico" aria-hidden="true"><use href="#i-zoom-in"/></svg></button>
+      </div>
+      <div class="pop-wrap">
+        <button id="r-theme" class="btn icon" type="button" aria-label="Okuma teması" title="Okuma teması" aria-haspopup="true" aria-expanded="false"><svg class="ico" aria-hidden="true"><use href="#i-palette"/></svg></button>
+        <div id="pop-theme" class="popover right" hidden role="dialog" aria-label="Okuma teması">
+          <p class="pop-label">Sayfa Teması</p>
+          <div id="theme-list" class="theme-list" role="radiogroup" aria-label="Okuma teması"></div>
+          <div id="custom-colors" class="custom-colors" hidden>
+            <label>Arka plan <input id="c-bg" type="color" aria-label="Arka plan rengi"></label>
+            <label>Yazı <input id="c-fg" type="color" aria-label="Yazı rengi"></label>
+          </div>
+          <p class="pop-label">Arka Plan</p>
+          <div class="bg-picker" role="radiogroup" aria-label="Arka plan">
+            <div class="bg-opts-row">
+              <button type="button" class="bg-opt-btn" data-rbg="none" role="radio" aria-checked="false"><svg class="ico" aria-hidden="true" style="width:13px;height:13px;"><use href="#i-x"/></svg><span>Yok</span></button>
+              <button type="button" class="bg-opt-btn" data-rbg="lib" role="radio" aria-checked="true"><span>Masayla aynı</span></button>
+            </div>
+            <div class="bg-grid">
+              <button type="button" class="bg-thumb" data-rbg="01" role="radio" title="Eski Kütüphane" style="background-image:url('img/bg/thumb/bg-01.jpg')"><span class="bg-num">01</span></button>
+              <button type="button" class="bg-thumb" data-rbg="02" role="radio" title="Yağmurlu Gece" style="background-image:url('img/bg/thumb/bg-02.jpg')"><span class="bg-num">02</span></button>
+              <button type="button" class="bg-thumb" data-rbg="03" role="radio" title="Sonbahar Ormanı" style="background-image:url('img/bg/thumb/bg-03.jpg')"><span class="bg-num">03</span></button>
+              <button type="button" class="bg-thumb" data-rbg="04" role="radio" title="Şömineli Oda" style="background-image:url('img/bg/thumb/bg-04.jpg')"><span class="bg-num">04</span></button>
+              <button type="button" class="bg-thumb" data-rbg="06" role="radio" title="Parşömen Dokusu" style="background-image:url('img/bg/thumb/bg-06.jpg')"><span class="bg-num">06</span></button>
+              <button type="button" class="bg-thumb" data-rbg="07" role="radio" title="Dağ Kulübesi" style="background-image:url('img/bg/thumb/bg-07.jpg')"><span class="bg-num">07</span></button>
+              <button type="button" class="bg-thumb" data-rbg="08" role="radio" title="Japon Bahçesi" style="background-image:url('img/bg/thumb/bg-08.jpg')"><span class="bg-num">08</span></button>
+            </div>
+          </div>
+          <p class="pop-label">Parlaklık</p>
+          <input id="r-bright" type="range" min="60" max="110" step="1" aria-label="Parlaklık">
+        </div>
+      </div>
+      <div class="pop-wrap">
+        <button id="r-ambience" class="btn icon" type="button" aria-label="Ambiyans sesleri" title="Ambiyans sesleri"><svg class="ico" aria-hidden="true"><use href="#i-volume"/></svg></button>
+      </div>
+      <button id="r-ai-btn" class="btn icon" type="button" aria-label="Yapay zekaya sor" title="Yapay zekaya sor" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ai"/></svg></button>
+      <button id="r-quick-note-btn" class="btn icon" type="button" aria-label="Deftere not al" title="Deftere not al"><svg class="ico" aria-hidden="true"><use href="#i-notebook"/></svg></button>
+      <button id="r-search" class="btn icon" type="button" aria-label="Kitap içinde ara (Ctrl+F)" title="Ara (Ctrl+F)"><svg class="ico" aria-hidden="true"><use href="#i-search"/></svg></button>
+      <button id="r-bm" class="btn icon" type="button" aria-label="Yer imi koy (B)" title="Yer imi (B)" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-bookmark"/></svg></button>
+      <button id="r-panel" class="btn icon" type="button" aria-label="İçindekiler ve yer imleri" title="Kenar paneli" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-panel"/></svg></button>
+    </div>
+  </div>
+
+  <div id="r-stage" class="stage" tabindex="-1">
+    <div id="r-spread-el" class="spread"></div>
+    <div id="r-loading" class="r-loading" hidden>Açılıyor…</div>
+  </div>
+  <button id="edge-prev" class="edge left" type="button" aria-label="Önceki sayfa" tabindex="-1"></button>
+  <button id="edge-next" class="edge right" type="button" aria-label="Sonraki sayfa" tabindex="-1"></button>
+
+  <aside id="r-side" class="side" hidden aria-label="Kenar paneli">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" data-tab="toc">İçindekiler</button>
+      <button type="button" role="tab" data-tab="bm">Yer imleri</button>
+      <button type="button" role="tab" data-tab="search">Ara</button>
+      <button id="side-close" class="btn icon small" type="button" aria-label="Paneli kapat"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="tabpane" data-pane="toc"><div id="toc-list"></div></div>
+    <div class="tabpane" data-pane="bm" hidden><div id="bm-list"></div></div>
+    <div class="tabpane" data-pane="search" hidden>
+      <form id="search-form" class="search-form" autocomplete="off">
+        <input id="q" type="search" placeholder="Kitapta ara" aria-label="Kitap içinde ara">
+        <button id="q-prev" class="btn icon small" type="button" aria-label="Önceki sonuç"><svg class="ico" aria-hidden="true"><use href="#i-up"/></svg></button>
+        <button id="q-next" class="btn icon small" type="button" aria-label="Sonraki sonuç"><svg class="ico" aria-hidden="true"><use href="#i-down"/></svg></button>
+      </form>
+      <p id="q-status" class="q-status" aria-live="polite"></p>
+      <ul id="q-results" class="q-results"></ul>
+    </div>
+  </aside>
+
+  <!-- Okuyucu içinde Yan Defter Paneli -->
+  <aside id="r-quick-note" class="quick-note-drawer" hidden aria-label="Yan Defter Paneli">
+    <div class="qn-head">
+      <div>
+        <div class="pop-label" style="margin:0 0 4px;">Defter · Yan Görünüm</div>
+        <div id="rqn-ref" class="qn-ref"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <button id="rqn-open-full" class="btn sm" type="button" title="Tam Defter görünümünde aç">Tam Ekran</button>
+        <button id="rqn-close" class="btn icon small" type="button" aria-label="Kapat"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+    </div>
+
+    <div class="qn-live-bar">
+      <label class="qn-live-toggle">
+        <input id="rqn-live" type="checkbox" checked>
+        <span>PDF'te seçilen yazıyı anlık aktar</span>
+      </label>
+      <button id="rqn-capture-sel" class="btn sm" type="button" title="PDF'teki seçili metni hemen nota ekle">Seçimi Aktar</button>
+    </div>
+
+    <div class="qn-selectors">
+      <div class="qn-sel-row">
+        <select id="rqn-topic" aria-label="Defter seç"></select>
+        <button id="rqn-new-topic" class="btn icon small" type="button" title="Yeni defter oluştur"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
+      </div>
+      <div class="qn-sel-row">
+        <select id="rqn-note" aria-label="Not seç"></select>
+        <button id="rqn-new-note" class="btn sm" type="button" title="Yeni not aç">+ Not</button>
+      </div>
+    </div>
+
+    <div class="qn-editor">
+      <input id="rqn-title" class="qn-title-inp serif" type="text" placeholder="Not başlığı…">
+      <textarea id="rqn-body" class="qn-body-inp" placeholder="Buraya yaz veya PDF üzerinden yazı seç — seçtiğin metin anlık buraya eklenir…"></textarea>
+      <div class="qn-foot">
+        <span id="rqn-status" class="qn-status">Hazır</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Okuyucu içinde Yapay Zekaya Sor paneli -->
+  <aside id="r-ai" class="ai-drawer" hidden aria-label="Yapay Zekaya Sor">
+    <div class="ai-head">
+      <div class="ai-head-top">
+        <div class="ai-head-text">
+          <div class="pop-label" style="margin:0 0 4px;">Yapay Zekaya Sor</div>
+          <div id="ai-ref" class="ai-ref"></div>
+        </div>
+        <div class="ai-head-btns">
+          <button id="ai-hist" class="btn sm" type="button" title="Bu PDF'teki tüm sohbetler" aria-pressed="false">Sohbetler</button>
+          <button id="ai-new" class="btn sm" type="button" title="Yeni sohbet başlat (eski sohbet Sohbetler listesinde kalır)">Yeni sohbet</button>
+          <button id="ai-close" class="btn icon small" type="button" aria-label="Kapat"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+        </div>
+      </div>
+      <select id="ai-model" aria-label="Model seç"></select>
+    </div>
+    <div id="ai-status" class="ai-status" hidden role="status">
+      <span id="ai-status-text"></span>
+      <button id="ai-retry-bridge" class="btn sm" type="button">Tekrar dene</button>
+    </div>
+    <div id="ai-msgs" class="ai-msgs" aria-live="polite"></div>
+    <div id="ai-list" class="ai-list" hidden></div>
+    <div class="ai-composer">
+      <div id="ai-chips" class="ai-chips" hidden></div>
+      <div id="ai-hint" class="ai-hint" hidden></div>
+      <div class="ai-input-row">
+        <button id="ai-add-sel" class="btn icon small" type="button" aria-label="PDF'teki seçimi ekle" title="PDF'teki seçili yazıyı alıntı olarak ekle"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <textarea id="ai-input" rows="1" placeholder="Sorunu yaz…" aria-label="Sorun"></textarea>
+        <button id="ai-send" class="btn icon small ai-send" type="button" aria-label="Gönder" title="Gönder (Enter)"><svg class="ico" aria-hidden="true"><use href="#i-move"/></svg></button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="r-bottom" class="bar bottom">
+    <span class="pg-label" aria-hidden="true">Sayfa</span>
+    <div id="r-progress" class="r-progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="1">
+      <div id="r-progress-fill" class="r-progress-fill"></div>
+    </div>
+    <form id="r-jump" class="jump" autocomplete="off">
+      <input id="r-pageinput" type="text" inputmode="numeric" aria-label="Sayfaya git" value="1">
+      <span class="of">/ <span id="r-total">1</span></span>
+    </form>
+  </div>
+</section>
+
+<!-- ================= ORTAK DİYALOGLAR & KATMANLAR ================= -->
+<audio id="music-audio" preload="auto"></audio>
+
+<div id="drop" class="drop" hidden aria-hidden="true">
+  <div class="drop-inner">
+    <p class="drop-title">Bırak, masana yerleşsin.</p>
+    <p class="drop-text">PDF'ler masaya, ses dosyaları müzik kutusuna eklenir</p>
+  </div>
+</div>
+
+<div id="peek" class="peek" hidden role="tooltip"></div>
+
+<div id="ctx-book" class="menu" hidden role="menu">
+  <button type="button" role="menuitem" data-act="place-both"><svg class="ico" aria-hidden="true"><use href="#i-dual"/></svg><span class="ctx-lbl">Hem Masada Hem Kitaplıkta Tut</span></button>
+  <button type="button" role="menuitem" data-act="place-shelf"><svg class="ico" aria-hidden="true"><use href="#i-shelf"/></svg><span class="ctx-lbl">Kitaplığa Kaldır (Yalnız Kitaplık)</span></button>
+  <button type="button" role="menuitem" data-act="place-desk"><svg class="ico" aria-hidden="true"><use href="#i-desk"/></svg><span class="ctx-lbl">Masaya Çıkar (Yalnız Masa)</span></button>
+  <hr class="menu-sep">
+  <button type="button" role="menuitem" data-act="edit"><svg class="ico" aria-hidden="true"><use href="#i-edit"/></svg>Düzenle</button>
+  <button type="button" role="menuitem" data-act="move"><svg class="ico" aria-hidden="true"><use href="#i-move"/></svg>Başka Masaya Taşı</button>
+  <button type="button" role="menuitem" data-act="delete" class="danger"><svg class="ico" aria-hidden="true"><use href="#i-trash"/></svg>Kalıcı Sil</button>
+</div>
+
+<!-- Müzik Kütüphanesi Modalı -->
+<dialog id="dlg-music" class="dlg dlg-lg">
+  <div class="dlg-head-row">
+    <h2 class="serif" style="margin:0;">Müzik Kutusu</h2>
+    <button type="button" class="btn icon small" data-close aria-label="Kapat"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="music-dlg-bar">
+    <button id="music-add-files" class="btn primary sm" type="button"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Müzik Ekle</span></button>
+    <button id="music-add-dir" class="btn sm" type="button">Klasör Ekle</button>
+    <div class="seg sm">
+      <button id="music-tab-all" type="button" class="on">Tümü (0)</button>
+      <button id="music-tab-fav" type="button">Favoriler (0)</button>
+    </div>
+    <input id="music-search" class="music-search-inp" type="search" placeholder="Parça veya sanatçı ara…">
+  </div>
+  <input id="music-file-input" type="file" accept="audio/*" multiple hidden>
+  <input id="music-dir-input" type="file" webkitdirectory directory multiple hidden>
+  <p id="music-empty" class="dlg-empty" hidden>Henüz müzik eklenmemiş. Bilgisayarından ses dosyaları veya bir klasör seçebilir, ya da müzik dosyalarını masaya sürükleyebilirsin.</p>
+  <div id="music-list" class="music-list"></div>
+</dialog>
+
+<!-- Masalar Yönetim Modalı -->
+<dialog id="dlg-desks" class="dlg">
+  <div class="dlg-head-row">
+    <h2 class="serif" style="margin:0;">Masalarım</h2>
+    <button type="button" class="btn icon small" data-close aria-label="Kapat"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <div id="desks-manage-list" class="desks-manage-list"></div>
+  <div class="dlg-actions">
+    <button id="btn-new-desk-modal" type="button" class="btn primary"><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg><span>Yeni Masa Oluştur</span></button>
+  </div>
+</dialog>
+
+<!-- Masa Oluştur / Düzenle Modalı -->
+<dialog id="dlg-desk-edit" class="dlg">
+  <form method="dialog" id="form-desk-edit">
+    <h2 id="desk-dlg-title" class="serif">Yeni masa</h2>
+    <label>Masa Adı<input id="desk-dlg-name" type="text" placeholder="Örn. Tarih Araştırması" required></label>
+    <label>Masa Yüzeyi
+      <select id="desk-dlg-surface">
+        <option value="ceviz">Ceviz Ahşap</option>
+        <option value="mese">Açık Meşe</option>
+        <option value="siyah">Mat Siyah</option>
+        <option value="mermer">Koyu Mermer</option>
+        <option value="sumen">Yeşil Sümen</option>
+      </select>
+    </label>
+    <label>Ortam Teması
+      <select id="desk-dlg-theme">
+        <option value="ceviz">Ceviz Çalışma</option>
+        <option value="gece">Gece Lambası</option>
+        <option value="sepya">Sıcak Sepya</option>
+        <option value="orman">Orman Yeşili</option>
+        <option value="siyah">Saf Siyah</option>
+        <option value="kagit">Aydınlık Kâğıt</option>
+      </select>
+    </label>
+    <div class="dlg-actions">
+      <button id="desk-dlg-delete" type="button" class="btn danger-btn" style="margin-right:auto;" hidden>Masayı Sil</button>
+      <button type="button" class="btn" data-close>Vazgeç</button>
+      <button type="submit" class="btn primary">Kaydet</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Defter / Konu Başlığı Modalı -->
+<dialog id="dlg-topic" class="dlg">
+  <form method="dialog" id="form-topic">
+    <h2 id="topic-dlg-title" class="serif">Yeni defter</h2>
+    <label>Defter / Konu Adı<input id="topic-name" type="text" placeholder="Örn. Makroekonomi, Osmanlı Tarihi…" required></label>
+    <div class="dlg-field-lbl">Kapak Rengi</div>
+    <div id="topic-colors" class="topic-colors"></div>
+    <div class="dlg-actions">
+      <button id="topic-delete-btn" type="button" class="btn danger-btn" style="margin-right:auto;" hidden>Sil</button>
+      <button type="button" class="btn" data-close>Vazgeç</button>
+      <button type="submit" class="btn primary">Kaydet</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- PDF Düzenle / Taşı / Sil Modalları -->
+<dialog id="dlg-book-edit" class="dlg">
+  <form method="dialog" id="form-book-edit">
+    <h2 class="serif">PDF'i düzenle</h2>
+    <label>Başlık<input id="e-book-title" type="text" required></label>
+    <label>Yazar / Kaynak<input id="e-book-author" type="text"></label>
+    <div class="dlg-actions">
+      <button type="button" class="btn" data-close>Vazgeç</button>
+      <button type="submit" class="btn primary">Kaydet</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-book-move" class="dlg">
+  <form method="dialog" id="form-book-move">
+    <h2 class="serif">Başka masaya taşı</h2>
+    <p id="move-book-name"></p>
+    <label>Hedef Masa<select id="move-book-desk"></select></label>
+    <div class="dlg-actions">
+      <button type="button" class="btn" data-close>Vazgeç</button>
+      <button type="submit" class="btn primary">Taşı</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-book-del" class="dlg">
+  <form method="dialog" id="form-book-del">
+    <h2 class="serif">PDF'i sil</h2>
+    <p id="del-book-text"></p>
+    <div class="dlg-actions">
+      <button type="button" class="btn" data-close>Vazgeç</button>
+      <button type="submit" class="btn danger-btn">Sil</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Ambiyans Sesleri Popover -->
+<div id="pop-ambience" class="popover pop-ambience" hidden role="dialog" aria-label="Ambiyans sesleri">
+  <div class="amb-head">
+    <span class="pop-label" style="margin:0">Ambiyans Sesleri</span>
+    <button id="amb-stop-all" class="link-btn" type="button">Hepsini durdur</button>
+  </div>
+  <div class="amb-master">
+    <span class="amb-label">Genel ses</span>
+    <input id="amb-master-vol" type="range" min="0" max="100" value="80" aria-label="Genel ses düzeyi">
+    <span id="amb-master-val" class="amb-val">80%</span>
+  </div>
+  <div id="amb-list" class="amb-list"></div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<script src="vendor/pdfjs/pdf.worker.min.js"></script>
+<script src="vendor/pdfjs/pdf.min.js"></script>
+<script src="js/db.js"></script>
+<script src="js/recolor.js"></script>
+<script src="js/ambience.js"></script>
+<script src="js/music.js"></script>
+<script src="js/accessories.js"></script>
+<script src="js/bookcase.js"></script>
+<script src="js/notebook.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/desk.js"></script>
+<script src="js/reader.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

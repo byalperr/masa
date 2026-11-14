@@ -1,0 +1,12 @@
+# 100 MB üstü ve telifli: yalnız kişisel kullanım, depoya girmez
+audio/succession.mp3
+
+# Python
+__pycache__/
+*.pyc
+
+# İşletim sistemi / editör
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
