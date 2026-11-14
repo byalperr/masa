@@ -1,9 +1,35 @@
 # Masa
 
-Kişisel çalışma ortamı uygulaması. Sunucu, kurulum veya internet gerektirmez.
+Kişisel çalışma ortamı uygulaması. Sunucu, kurulum veya internet gerektirmez. PDF okurken seçtiğin yazıyı yapay zekaya sorma özelliği isteğe bağlıdır ve tek tıkla kurulur.
 
-## Nasıl Açılır?
-`index.html` dosyasına çift tıkla (Chrome veya Edge önerilir).
+## Hızlı Başlangıç
+
+### 1. Masa'yı indir
+- **Kolay yol:** Bu sayfanın üstündeki yeşil **Code** düğmesine bas, **Download ZIP**'i seç. İnen zip'i sağ tıklayıp **Tümünü ayıkla** de ve klasörü istediğin yere koy (ör. Masaüstü).
+- **git kullanıyorsan:**
+  ```bash
+  git clone https://github.com/byalperr/masa.git
+  ```
+
+### 2. Aç ve kullan
+Klasördeki **`index.html`** dosyasına çift tıkla (Chrome veya Edge önerilir). Masa, PDF okuyucu, defter, müzik ve ambiyans hemen çalışır; başka bir şey kurman gerekmez.
+
+### 3. Yapay Zekaya Sor'u kur (isteğe bağlı, bir kerelik)
+- **Windows:** Klasördeki **`Kurulum.bat`** dosyasına çift tıkla.
+- **macOS / Linux:** Klasörde terminal aç ve şunu çalıştır:
+  ```bash
+  bash kurulum.sh
+  ```
+
+Kurulum yardımcısı eksik olanları sana sorarak kurar: **Python** ve **Antigravity CLI (agy)**. Sonra agy'yi açar; tarayıcıda **Google hesabınla giriş yapıp** agy'de `/exit` yazman yeterli. Zaten kurulu olanları atlar.
+
+> Windows "Bilgisayarınız korundu" (SmartScreen) uyarısı gösterirse **Ek bilgi → Yine de çalıştır**'a bas. Kurulum yardımcısı yalnız Python'u (winget ile) ve agy'yi Antigravity'nin resmi adresinden kurar.
+
+### 4. Her kullanımda
+1. Köprüyü başlat: masaüstündeki **Masa AI Köprüsü** kısayoluna ya da klasördeki **`AI Köprüsü Başlat.bat`**'a çift tıkla (macOS/Linux: `python3 ai_kopru.py`). Açılan pencere açık kalsın.
+2. Masa'da bir PDF aç, bir yazı seç ve altında çıkan **Yapay zekaya sor** balonuna bas.
+
+Takıldığın bir şey olursa `Kurulum.bat`'ı yeniden çalıştırman yeterli; neyin eksik olduğunu söyler.
 
 ## Özellikler
 - **Birden Fazla Masa**: Üst çubuktan farklı çalışma masaları oluşturabilir, masa yüzeyini (Ceviz, Meşe, Siyah, Mermer, Yeşil Sümen), ortam temasını ve arka plan fotoğrafını masaya özel değiştirebilirsin.
